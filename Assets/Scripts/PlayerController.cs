@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     private Animator playerAnimator;
     public GameObject guitar_back;
     public GameObject guitar_front;
+    
+    public AudioSource guitar_sound;
+   
 
     public ParticleSystem soundEffects;
 
@@ -31,9 +34,10 @@ public class PlayerController : MonoBehaviour
     {
         if (playerAnimator.GetFloat("Speed") > 0.3)
         {
+            isPlaying = false;
             soundEffects.gameObject.SetActive(false);
             soundEffects.Stop();
-
+            guitar_sound.Stop();
             foreach (GameObject NPC in crowdAnimators)
             {
                 NPC.GetComponent<Animator>().SetBool("isDancing", false);
@@ -43,12 +47,12 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGuitar()
     {
         Debug.Log("Draw");
-        if (!hasGuitar)
+        if (!hasGuitar )
         {
             ArmGuitar();
             hasGuitar=true;
         }
-        else
+        else if(hasGuitar && !isPlaying )
         {
             DisarmGuitar(); 
             hasGuitar = false;  
@@ -64,9 +68,12 @@ public class PlayerController : MonoBehaviour
         }
         else 
         {
+            guitar_sound.time = 3;
+         guitar_sound.Play();
             playerAnimator.SetTrigger("Play");
             soundEffects.gameObject.SetActive(true);
             soundEffects.Play();
+            isPlaying = true;
         }
        
     
