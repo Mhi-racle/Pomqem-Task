@@ -244,7 +244,11 @@ namespace StarterAssets
             {
                 _speed = targetSpeed;
             }
-
+            /*
+            if(targetSpeed > 0.3)
+            {
+                _animator.SetTrigger("StopPlaying");
+            } */
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
